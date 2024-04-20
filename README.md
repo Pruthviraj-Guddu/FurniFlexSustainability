@@ -1,9 +1,12 @@
-Project developed in PHILLY CODEFEST
+# Project developed in PHILLY CODEFEST
 DREXEL'S ANNUAL HACKATHON
 
-## Sewa ama547@drexel.edu
-## Jilu James jj3266@drexel.edu
-## Pruthviraj Mundargi pm935@drexel.edu
+
+Sewa ama547@drexel.edu
+
+Jilu James jj3266@drexel.edu
+
+Pruthviraj Mundargi pm935@drexel.edu
 
 
 *Technologies Used*
