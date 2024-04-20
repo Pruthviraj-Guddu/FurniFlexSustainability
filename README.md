@@ -28,3 +28,15 @@ sqlite3 dev/furniDB.db < dev/create_furni_db.sql
 To run the app
 python3 run.py
 
+
+
+
+
+
+
+
+
+trouble shooting commands
+
+pip3 install flask
+kill -9 $(lsof -i TCP:8080 | grep LISTEN | awk '{print $2}')
