@@ -1,4 +1,14 @@
 -- Create tables
+
+CREATE TABLE Student (
+    studentEmail VARCHAR2(100) PRIMARY KEY,
+    name VARCHAR2(100),
+    phoneNumber VARCHAR2(20),
+    startYear NUMBER,
+    schoolName VARCHAR2(100),
+    address VARCHAR2(255)
+);
+
 CREATE TABLE Accounts (
     accountID NUMBER PRIMARY KEY,
     studentEmail VARCHAR2(100) UNIQUE,
@@ -34,32 +44,3 @@ CREATE TABLE Messages (
     encryptedContent VARCHAR2(4000)
 );
 
--- Trigger to automatically match new accounts to old accounts by graduation year
-CREATE OR REPLACE TRIGGER match_graduation_year
-BEFORE INSERT ON Accounts
-FOR EACH ROW
-BEGIN
-    INSERT INTO Transactions (transactionID, buyerID, sellerID, itemID)
-    SELECT NULL, :new.accountID, a.accountID, NULL
-    FROM Accounts a
-    WHERE a.graduationYear = :new.startYear;
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        NULL; -- No matching account found, do nothing
-END;
-
-
--- Function for recommendation system based on user schoolName
-CREATE OR REPLACE FUNCTION get_recommendations(p_schoolName IN VARCHAR2)
-RETURN SYS_REFCURSOR
-AS
-    recommendations SYS_REFCURSOR;
-BEGIN
-    OPEN recommendations FOR
-    SELECT l.*
-    FROM Listings l
-    JOIN Accounts a ON l.ownerID = a.accountID
-    WHERE a.schoolName = p_schoolName
-    AND l.status = 'available';
-    RETURN recommendations;
-END;
