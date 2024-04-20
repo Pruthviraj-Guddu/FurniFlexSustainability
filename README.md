@@ -1,6 +1,10 @@
-Project developed in class CS530
+Project developed in PHILLY CODEFEST
+DREXEL'S ANNUAL HACKATHON
+
+Sewa
+Jilu
 Pruthviraj Mundargi pm935@drexel.edu
-Saivinay Rayala sr3674@drexel.edu
+
 
 *Technologies Used*
 Frontend: HTML5, CSS3 (Bootstrap), JavaScript (jQuery)

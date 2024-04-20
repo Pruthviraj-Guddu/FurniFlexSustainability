@@ -1,6 +1,7 @@
+## Sewa
+## Jilu James
 ## Pruthviraj Mundargi pm935@drexel.edu
-## Saivinay Rayala sr3674@drexel.edu
-## CS530: DUI
+
 
 
 # run.py
