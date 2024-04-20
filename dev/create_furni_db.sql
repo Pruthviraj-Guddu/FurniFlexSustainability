@@ -1,6 +1,6 @@
 
 --drop table in case your db already
-DROP TABLE IF EXISTS Student CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Student;
 -- Create table
 CREATE TABLE Student (
                      studentEmail VARCHAR(100) PRIMARY KEY,
@@ -12,7 +12,7 @@ CREATE TABLE Student (
 );
 
 --drop table in case your db already
-DROP TABLE IF EXISTS Accounts CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Accounts ;
 -- Create table
 CREATE TABLE Accounts (
                           accountID INT PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE Accounts (
 );
 
 --drop table in case your db already
-DROP TABLE IF EXISTS Listings CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Listings;
 -- Create table
 CREATE TABLE Listings (
                           itemID INT PRIMARY KEY,
@@ -40,7 +40,7 @@ CREATE TABLE Listings (
 );
 
 --drop table in case your db already
-DROP TABLE IF EXISTS Transactions CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Transactions ;
 -- Create table
 CREATE TABLE Transactions (
                               transactionID INT PRIMARY KEY,
@@ -53,7 +53,7 @@ CREATE TABLE Transactions (
 );
 
 --drop table in case your db already
-DROP TABLE IF EXISTS Messages CASCADE CONSTRAINTS;
+DROP TABLE IF EXISTS Messages ;
 -- Create table
 CREATE TABLE Messages (
                           messageID INT PRIMARY KEY,
