@@ -1,22 +1,24 @@
-@@furni_db.sql;
-
 -- Trigger to automatically match new accounts to old accounts by graduation year
 CREATE OR REPLACE TRIGGER match_graduation_year
-BEFORE INSERT ON Accounts
-FOR EACH ROW
+    BEFORE INSERT ON Accounts
+    FOR EACH ROW
+DECLARE
+    CURSOR c_accounts IS
+        SELECT *
+        FROM Accounts a
+        WHERE a.graduationYear = :new.startYear;
 BEGIN
-    INSERT INTO Transactions (transactionID, buyerID, sellerID, itemID)
-    SELECT NULL, :new.accountID, a.accountID, NULL
-    FROM Accounts a
-    WHERE a.graduationYear = :new.startYear;
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        NULL; -- No matching account found, do nothing
+    FOR account_rec IN c_accounts LOOP
+            -- Process each matching account
+            DBMS_OUTPUT.PUT_LINE('Matching account found: ' || account_rec.accountID || ', ' || account_rec.studentEmail || ', ' || account_rec.graduationYear);
+            -- Here you can perform any necessary action with the matching account
+        END LOOP;
 END;
+/
 
 
 -- Function for recommendation system based on user schoolName
-CREATE OR REPLACE FUNCTION get_recommendations(p_schoolName IN VARCHAR2)
+CREATE OR REPLACE FUNCTION get_recommendations(p_schoolName IN VARCHAR)
 RETURN SYS_REFCURSOR
 AS
     recommendations SYS_REFCURSOR;

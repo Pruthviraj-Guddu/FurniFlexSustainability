@@ -1,6 +1,15 @@
 
 --drop table in case your db already
 DROP TABLE IF EXISTS Student;
+--drop table in case your db already
+DROP TABLE IF EXISTS Accounts ;
+--drop table in case your db already
+DROP TABLE IF EXISTS Listings;
+--drop table in case your db already
+DROP TABLE IF EXISTS Transactions ;
+--drop table in case your db already
+DROP TABLE IF EXISTS Messages ;
+
 -- Create table
 CREATE TABLE Student (
                      studentEmail VARCHAR(100) PRIMARY KEY,
@@ -11,8 +20,7 @@ CREATE TABLE Student (
                      address VARCHAR(255) NOT NULL
 );
 
---drop table in case your db already
-DROP TABLE IF EXISTS Accounts ;
+
 -- Create table
 CREATE TABLE Accounts (
                           accountID INT PRIMARY KEY,
@@ -26,8 +34,7 @@ CREATE TABLE Accounts (
                           FOREIGN KEY (studentEmail) REFERENCES Student(studentEmail)
 );
 
---drop table in case your db already
-DROP TABLE IF EXISTS Listings;
+
 -- Create table
 CREATE TABLE Listings (
                           itemID INT PRIMARY KEY,
@@ -39,8 +46,6 @@ CREATE TABLE Listings (
                           FOREIGN KEY (ownerID) REFERENCES Accounts(accountID)
 );
 
---drop table in case your db already
-DROP TABLE IF EXISTS Transactions ;
 -- Create table
 CREATE TABLE Transactions (
                               transactionID INT PRIMARY KEY,
@@ -52,8 +57,7 @@ CREATE TABLE Transactions (
                               FOREIGN KEY (itemID) REFERENCES Listings(itemID)
 );
 
---drop table in case your db already
-DROP TABLE IF EXISTS Messages ;
+
 -- Create table
 CREATE TABLE Messages (
                           messageID INT PRIMARY KEY,
@@ -98,3 +102,5 @@ VALUES
     (301, 1, 2, 'Message content 1'),
     (302, 2, 3, 'Encrypted message content 2'),
     (303, 3, 1, 'Encrypted message content 3');
+
+
