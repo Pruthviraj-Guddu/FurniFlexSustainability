@@ -68,15 +68,15 @@ CREATE TABLE Messages (
 INSERT INTO Student (studentEmail, name, phoneNumber, startYear, schoolName, address) VALUES ('raj@drexel.edu', "raj", "987654321", 2024, "Drexel University", "Spring Garden");
 INSERT INTO Student (studentEmail, name, phoneNumber, startYear, schoolName, address) 
 VALUES 
-    ('emma@harvard.edu', 'Emma', '123456789', 2023, 'Harvard University', 'Cambridge'),
-    ('liam@stanford.edu', 'Liam', '456789123', 2022, 'Stanford University', 'Palo Alto');
+    ('ama@harvard.edu', 'Sewa', '123456789', 2023, 'Harvard University', 'Cambridge'),
+    ('jilu@stanford.edu', 'Jilu', '456789123', 2022, 'Stanford University', 'Palo Alto');
 
 
 INSERT INTO Accounts (accountID, studentEmail, username, password, graduationYear, startYear, expirationDate, paymentCardInformation) 
 VALUES 
     (1, 'raj@drexel.edu', 'raj2024', 'password123', 2028, 2024, '2028-05-01', '1234 5678 9012 3456'),
-    (2, 'emma@harvard.edu', 'emma2023', 'qwerty456', 2027, 2023, '2027-06-01', '9876 5432 1098 7654'),
-    (3, 'liam@stanford.edu', 'liam22', 'abc123xyz', 2026, 2022, '2026-07-01', '5678 9012 3456 7890');
+    (2, 'ama@harvard.edu', 'sewa2023', 'qwerty456', 2027, 2023, '2027-06-01', '9876 5432 1098 7654'),
+    (3, 'jilu@stanford.edu', 'jilu2022', 'abc123xyz', 2026, 2022, '2026-07-01', '5678 9012 3456 7890');
 
 
 INSERT INTO Listings (itemID, ownerID, price, description, sellByDate, status) 
