@@ -1,3 +1,5 @@
+@@furni_db.sql;
+
 -- Trigger to automatically match new accounts to old accounts by graduation year
 CREATE OR REPLACE TRIGGER match_graduation_year
 BEFORE INSERT ON Accounts
