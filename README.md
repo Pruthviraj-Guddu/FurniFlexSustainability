@@ -23,6 +23,7 @@ Version Control: Git
 
 To create database use 
 sqlite3 wroom.db < create_db.sql
+sqlite3 dev/furniDB.db < dev/create_furni_db.sql
 
 To run the app
 python3 run.py
