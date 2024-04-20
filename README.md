@@ -9,10 +9,15 @@ Jilu James jj3266@drexel.edu
 Pruthviraj Mundargi pm935@drexel.edu
 
 
-*Technologies Used*
+
+### Technologies Used
+
 Frontend: HTML5, CSS3 (Bootstrap), JavaScript (jQuery)
+
 Backend: Python with Flask framework
+
 Database: SQLite
+
 Version Control: Git
 
 
