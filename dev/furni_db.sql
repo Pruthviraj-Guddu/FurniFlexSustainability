@@ -1,12 +1,7 @@
-DROP TABLE IF EXISTS Accounts;
-DROP TABLE IF EXISTS Listings;
-DROP TABLE IF EXISTS Transactions;
-DROP TABLE IF EXISTS Messages;
-DROP TABLE IF EXISTS Accounts;
 
-
--- Create tables
-
+--drop table in case your db already
+DROP TABLE IF EXISTS Student;
+-- Create table
 CREATE TABLE Student (
     studentEmail VARCHAR2(100) PRIMARY KEY,
     name VARCHAR2(100),
@@ -16,6 +11,9 @@ CREATE TABLE Student (
     address VARCHAR2(255)
 );
 
+--drop table in case your db already
+DROP TABLE IF EXISTS Accounts;
+-- Create table
 CREATE TABLE Accounts (
     accountID NUMBER PRIMARY KEY,
     studentEmail VARCHAR2(100) UNIQUE,
@@ -28,6 +26,9 @@ CREATE TABLE Accounts (
     schoolName VARCHAR2(100)
 );
 
+--drop table in case your db already
+DROP TABLE IF EXISTS Listings;
+-- Create table
 CREATE TABLE Listings (
     itemID NUMBER PRIMARY KEY,
     ownerID NUMBER REFERENCES Accounts(accountID),
@@ -37,6 +38,9 @@ CREATE TABLE Listings (
     status VARCHAR2(20)
 );
 
+--drop table in case your db already
+DROP TABLE IF EXISTS Transactions;
+-- Create table
 CREATE TABLE Transactions (
     transactionID NUMBER PRIMARY KEY,
     buyerID NUMBER REFERENCES Accounts(accountID),
@@ -44,6 +48,9 @@ CREATE TABLE Transactions (
     itemID NUMBER REFERENCES Listings(itemID)
 );
 
+--drop table in case your db already
+DROP TABLE IF EXISTS Messages;
+-- Create table
 CREATE TABLE Messages (
     messageID NUMBER PRIMARY KEY,
     senderID NUMBER REFERENCES Accounts(accountID),
