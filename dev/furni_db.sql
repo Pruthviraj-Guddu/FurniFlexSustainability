@@ -3,58 +3,58 @@
 DROP TABLE IF EXISTS Student;
 -- Create table
 CREATE TABLE Student (
-    studentEmail VARCHAR2(100) PRIMARY KEY,
-    name VARCHAR2(100),
-    phoneNumber VARCHAR2(20),
-    startYear NUMBER,
-    schoolName VARCHAR2(100),
-    address VARCHAR2(255)
+    studentEmail VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(100),
+    phoneNumber VARCHAR(20),
+    startYear INT,
+    schoolName VARCHAR(100),
+    address VARCHAR(255)
 );
 
 --drop table in case your db already
 DROP TABLE IF EXISTS Accounts;
 -- Create table
 CREATE TABLE Accounts (
-    accountID NUMBER PRIMARY KEY,
-    studentEmail VARCHAR2(100) UNIQUE,
-    username VARCHAR2(50),
-    password VARCHAR2(50),
-    graduationYear NUMBER,
-    startYear NUMBER,
+    accountID INT PRIMARY KEY,
+    studentEmail VARCHAR(100) UNIQUE,
+    username VARCHAR(50),
+    password VARCHAR(50),
+    graduationYear INT,
+    startYear INT,
     expirationDate DATE,
-    paymentCardInformation VARCHAR2(100),
-    schoolName VARCHAR2(100)
+    paymentCardInformation VARCHAR(100),
+    schoolName VARCHAR(100)
 );
 
 --drop table in case your db already
 DROP TABLE IF EXISTS Listings;
 -- Create table
 CREATE TABLE Listings (
-    itemID NUMBER PRIMARY KEY,
-    ownerID NUMBER REFERENCES Accounts(accountID),
-    price NUMBER,
-    description VARCHAR2(255),
+    itemID INT PRIMARY KEY,
+    ownerID INT REFERENCES Accounts(accountID),
+    price INT,
+    description VARCHAR(255),
     sellByDate DATE,
-    status VARCHAR2(20)
+    status VARCHAR(20)
 );
 
 --drop table in case your db already
 DROP TABLE IF EXISTS Transactions;
 -- Create table
 CREATE TABLE Transactions (
-    transactionID NUMBER PRIMARY KEY,
-    buyerID NUMBER REFERENCES Accounts(accountID),
-    sellerID NUMBER REFERENCES Accounts(accountID),
-    itemID NUMBER REFERENCES Listings(itemID)
+    transactionID INT PRIMARY KEY,
+    buyerID INT REFERENCES Accounts(accountID),
+    sellerID INT REFERENCES Accounts(accountID),
+    itemID INT REFERENCES Listings(itemID)
 );
 
 --drop table in case your db already
 DROP TABLE IF EXISTS Messages;
 -- Create table
 CREATE TABLE Messages (
-    messageID NUMBER PRIMARY KEY,
-    senderID NUMBER REFERENCES Accounts(accountID),
-    receiverID NUMBER REFERENCES Accounts(accountID),
-    encryptedContent VARCHAR2(4000)
+    messageID INT PRIMARY KEY,
+    senderID INT REFERENCES Accounts(accountID),
+    receiverID INT REFERENCES Accounts(accountID),
+    encryptedContent VARCHAR(4000)
 );
 
