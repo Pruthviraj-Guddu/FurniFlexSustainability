@@ -1,23 +1,23 @@
-<!-- D:\Documents\Drexel\CS530-ProjectCars\templates\inventory.html -->
+<!-- D:\Documents\Drexel\CS530-ProjectItems\templates\inventory.html -->
 {% extends 'base.html' %}
 
 {% block title %}Inventory{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Car Inventory</h2>
-    <div class="row" id="carList">
-        <!-- Initial set of cars -->
-        {% for car in cars %}
+    <h2>Item Inventory</h2>
+    <div class="row" id="itemList">
+        <!-- Initial set of items -->
+        {% for item in items %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ car.image }}" alt="{{ car.make }} {{ car.model }}" class="card-img-top">
+                <img src="{{ item.image }}" alt="{{ item.make }} {{ item.model }}" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">{{ car.make }} {{ car.model }} ({{ car.year }})</h5>
-                    <p class="card-text">Body Styles: {{ car.body_styles }}</p>
+                    <h5 class="card-title">{{ item.make }} {{ item.model }} ({{ item.year }})</h5>
+                    <p class="card-text">Body Styles: {{ item.body_styles }}</p>
                     <div class="btn-group">
-                        <a href="{{ url_for('car_details', car_id=car['id']) }}" class="btn btn-sm btn-outline-secondary">View Details</a>
-                        <a href="{{ url_for('book_test_drive', car_id=car.id) }}" class="btn btn-sm btn-outline-secondary">Book Test Drive</a>
+                        <a href="{{ url_for('item_details', item_id=item['id']) }}" class="btn btn-sm btn-outline-secondary">View Details</a>
+                        <a href="{{ url_for('book_test_drive', item_id=item.id) }}" class="btn btn-sm btn-outline-secondary">Book Test Drive</a>
                     </div>
                 </div>
             </div>
@@ -33,27 +33,27 @@ document.addEventListener('DOMContentLoaded', function() {
     let start = 15;
     window.onscroll = function() {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-            fetch(`/inventory/cars?start=${start}`)
+            fetch(`/inventory/items?start=${start}`)
                 .then(response => response.json())
                 .then(data => {
-                    data.cars.forEach(car => {
-                        const carElement = document.createElement('div');
-                        carElement.classList.add('col-md-4', 'mb-4');
+                    data.items.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('col-md-4', 'mb-4');
                         
-                        carElement.innerHTML = `
+                        itemElement.innerHTML = `
                             <div class="card">
-                                <img src="${car.image}" alt="${car.make} ${car.model}" class="card-img-top">
+                                <img src="${item.image}" alt="${item.make} ${item.model}" class="card-img-top">
                                 <div class="card-body">
-                                    <h5 class="card-title">${car.make} ${car.model} (${car.year})</h5>
-                                    <p class="card-text">Body Styles: ${car.body_styles}</p>
+                                    <h5 class="card-title">${item.make} ${item.model} (${item.year})</h5>
+                                    <p class="card-text">Body Styles: ${item.body_styles}</p>
                                 </div>
                             </div>`;
                             
-                        document.getElementById('carList').appendChild(carElement);
+                        document.getElementById('itemList').appendChild(itemElement);
                     });
                     start += 15;
                 })
-                .catch(error => console.error('Error loading more cars:', error));
+                .catch(error => console.error('Error loading more items:', error));
         }
     };
 });
