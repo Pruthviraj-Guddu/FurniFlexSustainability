@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS Accounts;
+DROP TABLE IF EXISTS Listings;
+DROP TABLE IF EXISTS Transactions;
+DROP TABLE IF EXISTS Messages;
+DROP TABLE IF EXISTS Accounts;
+
+
 -- Create tables
 
 CREATE TABLE Student (
