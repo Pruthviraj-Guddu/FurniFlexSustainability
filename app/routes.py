@@ -10,16 +10,20 @@ def init_routes(app):
     @app.route('/')
     def home():
         db = get_db()
-        cursor = db.execute('SELECT * FROM cars WHERE featured = 1')
-        featured_cars = [dict(car) for car in cursor.fetchall()]
-        for car in featured_cars:
-            lst = ast.literal_eval(car["body_styles"])
-            car['body_styles']=','.join(lst)
-            image = lst[0].replace('"', '').replace("'", "").lower().replace("/", "_")
-            car['image'] = '../static/img/car_automobile_' + image + '.svg'
-        for cars in featured_cars:
-            print(f"{cars['id']} {cars['make']} {cars['model']}")
-        return render_template('home.html', featured_cars=featured_cars)
+        #cursor = db.execute('SELECT * FROM cars WHERE featured = 1')
+        cursor = db.execute('SELECT * FROM Listings WHERE status = "Active"')
+        #cursor = db.execute('SELECT * FROM Listings')
+        #featured_cars = [dict(car) for car in cursor.fetchall()]
+        listings = [dict(listing) for listing in cursor.fetchall()]
+        print(listings)
+        #for car in featured_cars:
+        #    lst = ast.literal_eval(car["body_styles"])
+        #    car['body_styles']=','.join(lst)
+        #    image = lst[0].replace('"', '').replace("'", "").lower().replace("/", "_")
+        #    car['image'] = '../static/img/car_automobile_' + image + '.svg'
+        #for cars in featured_cars:
+        #    print(f"{cars['id']} {cars['make']} {cars['model']}")
+        return render_template('home.html', flistings=listings)
 
     @app.route('/about')
     def about():
