@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5276ef69-4836-4552-b281-957eaca7d103" name="Default Changelist" comment="Queries update" />
+    <list default="true" id="5276ef69-4836-4552-b281-957eaca7d103" name="Default Changelist" comment="Queries update">
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -353,7 +356,8 @@
     <MESSAGE value="Furni Db" />
     <MESSAGE value="Queries uodate" />
     <MESSAGE value="Queries update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Queries update" />
+    <MESSAGE value="Untracked files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Untracked files" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
