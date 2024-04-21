@@ -1,9 +1,8 @@
-
 {% extends 'base.html' %}
 {% set active = "Home" %}
 
 {% block title %}
-Home - Davangere Motors
+Home - FurniFlex
 {% endblock %}
 
 {% block content %}
@@ -11,36 +10,37 @@ Home - Davangere Motors
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">Welcome to FurniFlex</h1>
-        <p class="lead text-muted">Explore our easy movein and move out deals.</p>
+        <p class="lead text-muted">Explore our easy move-in and move-out deals.</p>
     </div>
 </section>
 
-<section class="featured-cars mt-4">
+<section class="featured-listings mt-4">
     <div class="container">
-        <h2>Featured Cars</h2>
+        <h2>Featured Listings</h2>
         <div class="row">
-            {% for car in featured_cars %}
+            {% for listing in flistings %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <img src="{{ car.image }}" alt="{{ car.make }} {{ car.model }}" class="card-img-top">
+                    <!-- Assuming you have an image URL stored in the database, replace 'image_url' with the actual column name -->
+                    <img src="{{ listing.image_url }}" alt="{{ listing.description }}" class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">{{ car.make }} {{ car.model }}</h5>
+                        <h5 class="card-title">{{ listing.description }}</h5>
                         <p class="card-text">
-                            Year: {{ car['year'] }}<br>
-                            Model: {{ car['model'] }}<br>
-                            Categories: {{ car['body_styles'] | safe }}
+                            Price: ${{ listing.price }}<br>
+                            Sell By Date: {{ listing.sellByDate }}
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a href="{{ url_for('car_details', car_id=car['id']) }}" class="btn btn-sm btn-outline-secondary">View Details</a>
-                                <a href="{{ url_for('book_test_drive', car_id=car.id) }}" class="btn btn-sm btn-outline-secondary">Book Test Drive</a>
+                                <!-- Add appropriate URLs for viewing details and booking -->
+                                <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
+                                <a href="#" class="btn btn-sm btn-outline-secondary">Buy Now</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% else %}
-            <p>No featured cars available at the moment.</p>
+            <p>No listings available at the moment.</p>
             {% endfor %}
         </div>
     </div>
@@ -49,4 +49,3 @@ Home - Davangere Motors
 {% include 'about_section.html' %}
 
 {% endblock %}
-

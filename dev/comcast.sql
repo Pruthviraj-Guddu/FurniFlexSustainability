@@ -1,0 +1,3 @@
+--Product Recommendation Bot for Open AI
+--Comcast Product or Service use AI to support for the common good. write function to randomly select
+--elderly home to donate remaining products past sell by date

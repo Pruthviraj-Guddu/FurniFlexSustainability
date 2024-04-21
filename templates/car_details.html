@@ -1,26 +1,26 @@
-<!-- templates/car_details.html -->
+<!-- templates/item_details.html -->
 
 {% extends 'base.html' %}
 
-{% block title %}{{ car.make }} {{ car.model }}{% endblock %}
+{% block title %}{{ item.make }} {{ item.model }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Car details on the left -->
+        <!-- item details on the left -->
         <div class="col-md-6">
-            <h2>{{ car.make }} {{ car.model }} ({{ car.year }})</h2>
-            <p><strong>Year:</strong> {{ car.year }}</p>
-            <p><strong>Model:</strong> {{ car.model }}</p>
-            <p><strong>Body Styles:</strong> {{ car.body_styles }}</p>
+            <h2>{{ item.make }} {{ item.model }} ({{ item.year }})</h2>
+            <p><strong>Year:</strong> {{ item.year }}</p>
+            <p><strong>Model:</strong> {{ item.model }}</p>
+            <p><strong>Body Styles:</strong> {{ item.body_styles }}</p>
             <!-- Add more details as needed -->
             <h5 class="mt-4">Schedule an Appointment</h5>
             {% include '_booking_form.html' %}
         </div>
 
-        <!-- Car image on the right -->
+        <!-- Item image on the right -->
         <div class="col-md-6">
-            <img src="{{ car.image }}" alt="{{ car.make }} {{ car.model }}" class="img-fluid">
+            <img src="{{ item.image }}" alt="{{ item.make }} {{ item.model }}" class="img-fluid">
         </div>
     </div>
 </div>
