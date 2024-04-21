@@ -1,0 +1,106 @@
+Index: dev/Queries.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>--  match new accounts to old accounts by graduation year\nSELECT *\nFROM Accounts\nWHERE graduationYear = (\n    SELECT startYear\n    FROM Student\n    WHERE studentEmail = 'student_email'\n);\n\n\n-- Function for recommendation system based on user schoolName\nSELECT DISTINCT a.accountID\nFROM Accounts a\nWHERE EXISTS (\n    SELECT 1\n    FROM Student s\n    WHERE s.schoolName = (\n        SELECT schoolName\n        FROM Student\n        WHERE studentEmail = a.studentEmail\n    )\n      AND a.accountID <> (\n        SELECT accountID\n        FROM Student\n        WHERE studentEmail = a.studentEmail\n    )\n);\n\n\n-- Automatically delete listing when status changes to sold or remove\nDELETE FROM Listings\nWHERE status IN ('sold', 'remove');
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dev/Queries.sql b/dev/Queries.sql
+--- a/dev/Queries.sql	(revision 80cc47af566a7c2609e2cc2a46e88a98982215c2)
++++ b/dev/Queries.sql	(date 1713668910061)
+@@ -1,32 +1,42 @@
+---  match new accounts to old accounts by graduation year
+-SELECT *
+-FROM Accounts
+-WHERE graduationYear = (
+-    SELECT startYear
+-    FROM Student
+-    WHERE studentEmail = 'student_email'
+-);
++--Queries for Recommendation System
+ 
++--List all available listings with their owners
++SELECT l.itemID, l.price, l.description, l.sellByDate, l.status, a.username
++FROM Listings l
++         INNER JOIN Accounts a ON l.ownerID = a.accountID
++WHERE l.status = 'available';
+ 
+--- Function for recommendation system based on user schoolName
+-SELECT DISTINCT a.accountID
++--Retrieve all transactions along with buyer and seller details (Receipt)
++SELECT t.transactionID, t.itemID, t.buyerID, t.sellerID, a_buyer.username AS buyer_username, a_seller.username AS seller_username
++FROM Transactions t
++         JOIN Accounts a_buyer ON t.buyerID = a_buyer.accountID
++         JOIN Accounts a_seller ON t.sellerID = a_seller.accountID;
++
++-- Count the number of listings created by each user
++SELECT a.username, COUNT(l.itemID) AS listing_count
+ FROM Accounts a
+-WHERE EXISTS (
+-    SELECT 1
+-    FROM Student s
+-    WHERE s.schoolName = (
+-        SELECT schoolName
+-        FROM Student
+-        WHERE studentEmail = a.studentEmail
+-    )
+-      AND a.accountID <> (
+-        SELECT accountID
+-        FROM Student
+-        WHERE studentEmail = a.studentEmail
+-    )
+-);
++         LEFT JOIN Listings l ON a.accountID = l.ownerID
++GROUP BY a.username;
++
++--Retrieve all message information received by a particular accountID(inbox)
++SELECT m.messageID, m.senderID, m.receiverID, m.encryptedContent
++FROM Messages m
++WHERE m.receiverID = :accountID;
++
++-- retrieve all messages sent by a particular accountID (Sent box)
++SELECT m.messageID, m.senderID, m.receiverID, m.encryptedContent
++FROM Messages m
++WHERE m.senderID = :accountID;
++
++--Retrieves the receiver ID, sender ID, and encrypted content of the most recent message sent to each receiver
++-- based on the maximum message ID (most recent chat)
+ 
++SELECT m.receiverID, m.senderID, m.encryptedContent
++FROM Messages m
++         INNER JOIN (
++    SELECT receiverID, MAX(messageID) AS max_messageID
++    FROM Messages
++    GROUP BY receiverID
++) latest ON m.receiverID = latest.receiverID AND m.messageID = latest.max_messageID;
+ 
+--- Automatically delete listing when status changes to sold or remove
+-DELETE FROM Listings
+-WHERE status IN ('sold', 'remove');
+\ No newline at end of file
++
+Index: dev/create_furni_db.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n--drop table in case your db already\nDROP TABLE IF EXISTS Student;\n--drop table in case your db already\nDROP TABLE IF EXISTS Accounts ;\n--drop table in case your db already\nDROP TABLE IF EXISTS Listings;\n--drop table in case your db already\nDROP TABLE IF EXISTS Transactions ;\n--drop table in case your db already\nDROP TABLE IF EXISTS Messages ;\n\n-- Create table\nCREATE TABLE Student (\n                     studentEmail VARCHAR(100) PRIMARY KEY,\n                     name VARCHAR(100) NOT NULL,\n                     phoneNumber VARCHAR(20) NOT NULL,\n                     startYear INT NOT NULL,\n                     schoolName VARCHAR(100) NOT NULL,\n                     address VARCHAR(255) NOT NULL\n);\n\n\n-- Create table\nCREATE TABLE Accounts (\n                          accountID INT PRIMARY KEY,\n                          studentEmail VARCHAR(100) UNIQUE,\n                          username VARCHAR(50) NOT NULL ,\n                          password VARCHAR(50) NOT NULL,\n                          graduationYear INT NOT NULL,\n                          expirationDate DATE NOT NULL ,\n                          paymentCardInformation VARCHAR(100),\n                          FOREIGN KEY (studentEmail) REFERENCES Student(studentEmail)\n);\n\n\n-- Create table\nCREATE TABLE Listings (\n                          itemID INT PRIMARY KEY,\n                          ownerID INT NOT NULL ,\n                          price INT NOT NULL,\n                          description VARCHAR(255),\n                          sellByDate DATE,\n                          status VARCHAR(20) NOT NULL,\n                          FOREIGN KEY (ownerID) REFERENCES Accounts(accountID)\n);\n\n-- Create table\nCREATE TABLE Transactions (\n                              transactionID INT PRIMARY KEY,\n                              buyerID INT NOT NULL,\n                              sellerID INT NOT NULL,\n                              itemID INT NOT NULL ,\n                              FOREIGN KEY (buyerID) REFERENCES Accounts(accountID),\n                              FOREIGN KEY (sellerID) REFERENCES Accounts(accountID),\n                              FOREIGN KEY (itemID) REFERENCES Listings(itemID)\n);\n\n\n-- Create table\nCREATE TABLE Messages (\n                          messageID INT PRIMARY KEY,\n                          senderID INT NOT NULL,\n                          receiverID INT NOT NULL ,\n                          encryptedContent VARCHAR(4000),\n                          FOREIGN KEY (senderID) REFERENCES Accounts(accountID) ,\n                          FOREIGN KEY (receiverID) REFERENCES Accounts(accountID)\n);\n\n\nINSERT INTO Student (studentEmail, name, phoneNumber, startYear, schoolName, address) VALUES ('raj@drexel.edu', 'raj', '+1-(987)-654-7321', 2024, 'Drexel University', 'Spring Garden');\nINSERT INTO Student (studentEmail, name, phoneNumber, startYear, schoolName, address) \nVALUES \n    ('ama@harvard.edu', 'Sewa', '+1-(888)-654-7321', 2023, 'Harvard University', 'Cambridge'),\n    ('jilu@stanford.edu', 'Jilu', '+1-(304)-654-7321', 2022, 'Stanford University', 'Palo Alto'),\n    ('gina@upenn.edu', 'gina', '+1-(301)-654-7321', 2022, 'Stanford University', 'Palo Alto'),\n    ('sam@gsu.edu', 'sam', '+1-(555)-654-7321', 2023, 'Drexel University', 'Spring Garden'),\n    ('jakes@cornell.edu', 'jakes', '+1-(457)-654-7321', 2021, 'Harvard University', 'Cambridge');\n\n\nINSERT INTO Accounts (accountID, studentEmail, username, password, graduationYear, expirationDate, paymentCardInformation)\nVALUES \n    (1, 'raj@drexel.edu', 'raj2024', 'password123', 2028,  '2028-05-01', '1234 5678 9012 3456'),\n    (2, 'ama@harvard.edu', 'sewa2023', 'qwerty456', 2027, '2027-06-01', '9876 5432 1098 7654'),\n    (3, 'jilu@stanford.edu', 'jilu2022', 'abc123xyz', 2026, '2026-07-01', '5678 9012 3456 7890'),\n    (4, 'gina@upenn.edu', 'gina300', 'password123', 2022, '2024-12-31', '1234-5678-9012-3456'),\n    (5, 'sam@gsu.edu', 'sam700', 'password456', 2023, '2024-12-31', '9876-5432-1098-7654'),\n    (6, 'jakes@cornell.edu', 'jakes400', 'password789', 2022, '2024-12-31', '2468-1357-8024-6803');\n\n\nINSERT INTO Listings (itemID, ownerID, price, description, sellByDate, status) \nVALUES \n    (101, 1, 50, 'Used Calculus textbook', '2024-05-01', 'Active'),\n    (102, 2, 100, 'Graphing calculator', '2024-06-01', 'sold'),\n    (103, 3, 20, 'Chemistry lab goggles', '2024-07-01', 'remove');\n\n\nINSERT INTO Transactions (transactionID, buyerID, sellerID, itemID) \nVALUES \n    (201, 2, 1, 101),\n    (202, 3, 2, 102),\n    (203, 1, 3, 103);\n\n\nINSERT INTO Messages (messageID, senderID, receiverID, encryptedContent) \nVALUES \n    (301, 1, 2, 'Encrypted Message content 1'),\n    (302, 2, 3, 'Encrypted message content 2'),\n    (303, 3, 1, 'Encrypted message content 3');\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dev/create_furni_db.sql b/dev/create_furni_db.sql
+--- a/dev/create_furni_db.sql	(revision 80cc47af566a7c2609e2cc2a46e88a98982215c2)
++++ b/dev/create_furni_db.sql	(date 1713668910063)
+@@ -90,7 +90,7 @@
+ 
+ INSERT INTO Listings (itemID, ownerID, price, description, sellByDate, status) 
+ VALUES 
+-    (101, 1, 50, 'Used Calculus textbook', '2024-05-01', 'Active'),
++    (101, 1, 50, 'Used Calculus textbook', '2024-05-01', 'available'),
+     (102, 2, 100, 'Graphing calculator', '2024-06-01', 'sold'),
+     (103, 3, 20, 'Chemistry lab goggles', '2024-07-01', 'remove');
+ 
+@@ -110,5 +110,3 @@
+ 
+ 
+ 
+-
+-

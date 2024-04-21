@@ -1,0 +1,101 @@
+Index: dev/furni_db.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n--drop table in case your db already\nDROP TABLE IF EXISTS Student;\n-- Create table\nCREATE TABLE Student (\n    studentEmail VARCHAR(100) PRIMARY KEY,\n    name VARCHAR(100),\n    phoneNumber VARCHAR(20),\n    startYear INT,\n    schoolName VARCHAR(100),\n    address VARCHAR(255)\n);\n\n--drop table in case your db already\nDROP TABLE IF EXISTS Accounts;\n-- Create table\nCREATE TABLE Accounts (\n    accountID INT PRIMARY KEY,\n    studentEmail VARCHAR(100) UNIQUE,\n    username VARCHAR(50),\n    password VARCHAR(50),\n    graduationYear INT,\n    startYear INT,\n    expirationDate DATE,\n    paymentCardInformation VARCHAR(100),\n    schoolName VARCHAR(100)\n);\n\n--drop table in case your db already\nDROP TABLE IF EXISTS Listings;\n-- Create table\nCREATE TABLE Listings (\n    itemID INT PRIMARY KEY,\n    ownerID INT REFERENCES Accounts(accountID),\n    price INT,\n    description VARCHAR(255),\n    sellByDate DATE,\n    status VARCHAR(20)\n);\n\n--drop table in case your db already\nDROP TABLE IF EXISTS Transactions;\n-- Create table\nCREATE TABLE Transactions (\n    transactionID INT PRIMARY KEY,\n    buyerID INT REFERENCES Accounts(accountID),\n    sellerID INT REFERENCES Accounts(accountID),\n    itemID INT REFERENCES Listings(itemID)\n);\n\n--drop table in case your db already\nDROP TABLE IF EXISTS Messages;\n-- Create table\nCREATE TABLE Messages (\n    messageID INT PRIMARY KEY,\n    senderID INT REFERENCES Accounts(accountID),\n    receiverID INT REFERENCES Accounts(accountID),\n    encryptedContent VARCHAR(4000)\n);\n\n
+===================================================================
+diff --git a/dev/furni_db.sql b/dev/furni_db.sql
+--- a/dev/furni_db.sql	
++++ b/dev/furni_db.sql	
+@@ -1,60 +1,68 @@
+ 
+ --drop table in case your db already
+-DROP TABLE IF EXISTS Student;
++DROP TABLE IF EXISTS Student CASCADE CONSTRAINTS;
+ -- Create table
+ CREATE TABLE Student (
+     studentEmail VARCHAR(100) PRIMARY KEY,
+-    name VARCHAR(100),
+-    phoneNumber VARCHAR(20),
+-    startYear INT,
+-    schoolName VARCHAR(100),
+-    address VARCHAR(255)
++    name VARCHAR(100) NOT NULL,
++    phoneNumber VARCHAR(20) NOT NULL,
++    startYear INT NOT NULL,
++    schoolName VARCHAR(100) NOT NULL,
++    address VARCHAR(255) NOT NULL
+ );
+ 
+ --drop table in case your db already
+-DROP TABLE IF EXISTS Accounts;
++DROP TABLE IF EXISTS Accounts CASCADE CONSTRAINTS;
+ -- Create table
+ CREATE TABLE Accounts (
+     accountID INT PRIMARY KEY,
+     studentEmail VARCHAR(100) UNIQUE,
+-    username VARCHAR(50),
+-    password VARCHAR(50),
+-    graduationYear INT,
+-    startYear INT,
+-    expirationDate DATE,
++    username VARCHAR(50) NOT NULL ,
++    password VARCHAR(50) NOT NULL,
++    graduationYear INT NOT NULL,
++    startYear INT NOT NULL,
++    expirationDate DATE NOT NULL ,
+     paymentCardInformation VARCHAR(100),
+-    schoolName VARCHAR(100)
++    FOREIGN KEY (studentEmail) REFERENCES Student(studentEmail)
+ );
+ 
+ --drop table in case your db already
+-DROP TABLE IF EXISTS Listings;
++DROP TABLE IF EXISTS Listings CASCADE CONSTRAINTS;
+ -- Create table
+ CREATE TABLE Listings (
+     itemID INT PRIMARY KEY,
+-    ownerID INT REFERENCES Accounts(accountID),
+-    price INT,
++    ownerID INT NOT NULL ,
++    price INT NOT NULL,
+     description VARCHAR(255),
+     sellByDate DATE,
+-    status VARCHAR(20)
++    status VARCHAR(20) NOT NULL,
++    FOREIGN KEY (ownerID) REFERENCES Accounts(accountID)
+ );
+ 
+ --drop table in case your db already
+-DROP TABLE IF EXISTS Transactions;
++DROP TABLE IF EXISTS Transactions CASCADE CONSTRAINTS;
+ -- Create table
+ CREATE TABLE Transactions (
+     transactionID INT PRIMARY KEY,
+-    buyerID INT REFERENCES Accounts(accountID),
+-    sellerID INT REFERENCES Accounts(accountID),
+-    itemID INT REFERENCES Listings(itemID)
++    buyerID INT NOT NULL,
++    sellerID INT NOT NULL,
++    itemID INT NOT NULL ,
++    FOREIGN KEY (buyerID) REFERENCES Accounts(accountID),
++    FOREIGN KEY (sellerID) REFERENCES Accounts(accountID),
++    FOREIGN KEY (itemID) REFERENCES Listings(itemID)
+ );
+ 
+ --drop table in case your db already
+-DROP TABLE IF EXISTS Messages;
++DROP TABLE IF EXISTS Messages CASCADE CONSTRAINTS;
+ -- Create table
+ CREATE TABLE Messages (
+     messageID INT PRIMARY KEY,
+-    senderID INT REFERENCES Accounts(accountID),
+-    receiverID INT REFERENCES Accounts(accountID),
++    senderID INT NOT NULL,
++    receiverID INT NOT NULL ,
+     encryptedContent VARCHAR(4000)
++    FOREIGN KEY (senderID) REFERENCES Accounts(accountID) ,
++    FOREIGN KEY (receiverID) REFERENCES Accounts(accountID)
+ );
+ 
++
++
