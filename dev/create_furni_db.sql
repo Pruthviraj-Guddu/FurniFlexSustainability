@@ -90,7 +90,7 @@ VALUES
 
 INSERT INTO Listings (itemID, ownerID, price, description, sellByDate, status) 
 VALUES 
-    (101, 1, 50, 'Used Calculus textbook', '2024-05-01', 'Active'),
+    (101, 1, 50, 'Used Calculus textbook', '2024-05-01', 'available'),
     (102, 2, 100, 'Graphing calculator', '2024-06-01', 'sold'),
     (103, 3, 20, 'Chemistry lab goggles', '2024-07-01', 'remove');
 
@@ -107,8 +107,6 @@ VALUES
     (301, 1, 2, 'Encrypted Message content 1'),
     (302, 2, 3, 'Encrypted message content 2'),
     (303, 3, 1, 'Encrypted message content 3');
-
-
 
 
 
