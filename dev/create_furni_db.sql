@@ -104,7 +104,7 @@ VALUES
 
 INSERT INTO Messages (messageID, senderID, receiverID, encryptedContent) 
 VALUES 
-    (301, 1, 2, 'Message content 1'),
+    (301, 1, 2, 'Encrypted Message content 1'),
     (302, 2, 3, 'Encrypted message content 2'),
     (303, 3, 1, 'Encrypted message content 3');
 
