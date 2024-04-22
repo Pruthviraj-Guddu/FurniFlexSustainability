@@ -29,14 +29,14 @@ To run the app
 python3 run.py
 
 
-"main" branch renamed to "master"
-
-
-
-
 
 
 trouble shooting commands
 
 pip3 install flask
 kill -9 $(lsof -i TCP:8080 | grep LISTEN | awk '{print $2}')
+
+
+
+
+"main" branch renamed to "master"
